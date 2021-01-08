@@ -6,6 +6,7 @@
         <ui:VisualElement style="flex-grow: 1; justify-content: center;">
             <ui:VisualElement name="url-center" style="align-items: stretch; justify-content: center; height: 78%;">
                 <ui:VisualElement name="logo" style="height: 170px; background-image: url(&apos;/Assets/Project/UI/UI_connection/logo_page.png&apos;); -unity-background-scale-mode: scale-to-fit; margin-bottom: 137px;" />
+                <ui:Label text="Url" class="medium-size-txt orange-text" style="margin-top: 22px; margin-bottom: 22px;" />
                 <ui:VisualElement name="inputs" style="flex-direction: row; justify-content: space-between; height: 42px;">
                     <ui:TextField picking-mode="Ignore" name="url-input" text="test.com" value="test.com" class="textfield-with-image-bck grey-text-field" style="-unity-text-align: upper-center; flex-grow: 1; height: 42px;" />
                     <ui:Button text="&#10;" name="url-enter-btn" class="input-button input-arrow-button" style="width: 42px; color: rgb(255, 255, 255); -unity-font-style: bold; height: 42px; align-items: center; justify-content: center;">
