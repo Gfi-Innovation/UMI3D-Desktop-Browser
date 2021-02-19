@@ -322,7 +322,7 @@ namespace BrowserDesktop.Controller
                     var Interactable = hit.collider.gameObject.GetComponent<InteractableContainer>();
                     if (Interactable == null)
                         Interactable = hit.collider.gameObject.GetComponentInParent<InteractableContainer>();
-                    if (Interactable != null)
+                    if (Interactable != null && Interactable.Interactable.Active)
                     {
                         mouseData.CurrentHoveredId = UMI3DEnvironmentLoader.GetNodeID(hit.collider);
 
