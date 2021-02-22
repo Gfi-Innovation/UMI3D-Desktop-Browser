@@ -30,11 +30,13 @@ namespace umi3d.cdk.collaboration
         /// <summary>
         /// Whether the microphone is running
         /// </summary>
-        public static bool IsMute { get { return Exists ? Instance.muted : false; } 
-            set { 
+        public static bool IsMute
+        {
+            get { return Exists ? Instance.muted : false; }
+            set {
                 if (Exists)
                 {
-                    if (Instance.muted  != value)
+                    if (Instance.muted != value)
                     {
                         if (value) Instance.StopRecording();
                         else Instance.StartRecording();
@@ -42,7 +44,7 @@ namespace umi3d.cdk.collaboration
 
                     Instance.muted = value;
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -52,9 +54,9 @@ namespace umi3d.cdk.collaboration
         {
             reading = true;
             clip = Microphone.Start(null, true, lengthSeconds, (int)samplingFrequency);
-            lock(pcmQueue)
+            lock (pcmQueue)
                 pcmQueue.Clear();
-            if(thread == null)
+            if (thread == null)
                 thread = new Thread(ThreadUpdate);
             if (!thread.IsAlive)
                 thread.Start();
@@ -80,7 +82,7 @@ namespace umi3d.cdk.collaboration
         bool reading = false;
 
         const SamplingFrequency samplingFrequency = SamplingFrequency.Frequency_12000;
-        
+
         const int lengthSeconds = 1;
 
         AudioClip clip;
@@ -183,7 +185,7 @@ namespace umi3d.cdk.collaboration
                 {
                     ok = pcmQueue.Count >= frameSize;
                 }
-                if(ok)
+                if (ok)
                 {
                     lock (pcmQueue)
                     {

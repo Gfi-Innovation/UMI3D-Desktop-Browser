@@ -32,9 +32,9 @@ namespace umi3d.cdk.collaboration
         /// 
         /// </summary>
         /// <param name="dto"></param>
-        public void Read(VoiceDto dto,ulong timestep)
+        public void Read(VoiceDto dto, ulong timestep)
         {
-            MainThreadManager.Run(() => OnEncoded(dto.data, dto.length,timestep));
+            MainThreadManager.Run(() => OnEncoded(dto.data, dto.length, timestep));
         }
 
         #region Read
@@ -86,7 +86,7 @@ namespace umi3d.cdk.collaboration
         Decoder decoder;
         readonly float[] pcmBuffer = new float[Decoder.maximumPacketDuration * (int)channels];
 
-        void OnEncoded(byte[] data, int length,ulong timeStep)
+        void OnEncoded(byte[] data, int length, ulong timeStep)
         {
             if (timeStep - lastTimeStep > 500)
                 head = 0;
