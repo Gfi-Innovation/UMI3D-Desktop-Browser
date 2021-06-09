@@ -30,7 +30,8 @@ public class FpsNavigation : AbstractNavigation
     public Transform _neckPivot;
     public float maxAngle;
     public Transform head;
-    public Transform Neck;
+    public Transform Body;
+    public Transform Node;
     public Transform TorsoUpAnchor;
 
     /// <summary>
@@ -105,8 +106,8 @@ public class FpsNavigation : AbstractNavigation
     public override void Teleport(TeleportDto data)
     {
         agent.enabled = false;
-        Neck.position = data.position;
-        Neck.rotation = data.rotation;
+        Node.position = data.position;
+        Node.rotation = data.rotation;
         baseHeight = data.position.Y;
 
         StartCoroutine(ResetNavmeshAgent());
@@ -163,13 +164,12 @@ public class FpsNavigation : AbstractNavigation
 
         if (SideMenu.IsExpanded || CursorHandler.Movement == CursorHandler.CursorMovement.Free || CursorHandler.Movement == CursorHandler.CursorMovement.FreeHiden)
         {
-            Vector3 position = Neck.transform.position;
+            Vector3 position = Vector3.zero;// Node.transform.position;
             position.y = jumpData.heigth + baseHeight;
-            Neck.transform.position = position;
+            Body.transform.localPosition = position;
             return;
         }
-            
-        
+
         if (TextInputDisplayerElement.isTyping)
             return;
 
@@ -177,9 +177,10 @@ public class FpsNavigation : AbstractNavigation
         else if (state == State.FreeHead && !Input.GetKey(InputLayoutManager.GetInputCode(InputLayoutManager.Input.FreeView))) { state = State.Default; changeToDefault = true; }
         Vector2 Move = Vector2.zero;
         float height = jumpData.heigth;
+
         if (navigateTo)
         {
-            var delta = destination - Neck.transform.position;
+            var delta = destination - Node.transform.position;
             Move = delta.normalized;
         }
         else
@@ -189,6 +190,7 @@ public class FpsNavigation : AbstractNavigation
             if (Input.GetKey(InputLayoutManager.GetInputCode(InputLayoutManager.Input.Right))) { Move.y += 1; }
             if (Input.GetKey(InputLayoutManager.GetInputCode(InputLayoutManager.Input.Left))) { Move.y -= 1; }
         }
+
         switch (navigation)
         {
             case Navigation.Walking:
@@ -203,12 +205,14 @@ public class FpsNavigation : AbstractNavigation
         }
         Move *= Time.deltaTime;
 
-
         HandleView();
-        Vector3 pos = Neck.rotation * new Vector3(Move.y, 0, Move.x);
-        pos += Neck.transform.position;
-        pos.y = height + baseHeight;
-        Neck.transform.position = pos;
+        Vector3 pos = Node.rotation * new Vector3(Move.y, 0, Move.x);
+        pos += Node.transform.position;
+        Node.transform.position = pos;
+
+        Vector3 bodyPose = Vector3.zero;
+        bodyPose.y = height + baseHeight;
+        Body.transform.localPosition = bodyPose;
     }
 
     void Walk(ref Vector2 Move, ref float height)
@@ -263,12 +267,12 @@ public class FpsNavigation : AbstractNavigation
 
         if (state == State.Default)
         {
-            Neck.transform.rotation = Quaternion.Euler(new Vector3(0, result.y, 0));
+            Node.transform.rotation = Quaternion.Euler(new Vector3(0, result.y, 0));
             LastAngleView = result;
         }
         else
         {
-            Vector3 angleNeck = NormalizeAngle(Neck.rotation.eulerAngles);
+            Vector3 angleNeck = NormalizeAngle(Node.rotation.eulerAngles);
             float delta = Mathf.DeltaAngle(result.y, angleNeck.y);
 
             if (delta < data.YAngleRange.x) result.y = -data.YAngleRange.x + angleNeck.y;
