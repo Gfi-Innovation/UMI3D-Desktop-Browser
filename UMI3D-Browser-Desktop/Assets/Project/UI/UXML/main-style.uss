@@ -338,6 +338,22 @@ Toggle > Label {
     color: rgb(247, 182, 87);
 }
 
+.white-btn-img > VisualElement {
+    background-image: url('/Assets/Project/UI/UI_connection/icon_window_ENABLE.png');
+}
+
+.white-btn-img:hover > VisualElement {
+    background-image: url('/Assets/Project/UI/UI_connection/icon_window_HOVER.png');
+}
+
+.white-icon-tint > VisualElement {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.white-icon-tint:hover > VisualElement {
+    -unity-background-image-tint-color: rgb(247, 182, 87);
+}
+
 .orange-text {
     color: rgb(247, 182, 87);
 }
